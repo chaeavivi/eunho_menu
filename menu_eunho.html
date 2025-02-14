@@ -37,7 +37,7 @@
             flex-shrink: 0;
             border-radius: 20px;
             background: rgba(255, 255, 255, 0.00); /* 배경 색상 설정 */
-            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset; /* 내부 그림자 설정 */
+        
             position: relative;
             overflow: hidden; /* 넘치는 내용 숨김 */
             margin-top: 30px; /* 버튼과의 간격 */
@@ -46,13 +46,30 @@
             align-items: center;
         }
 
-        /* 결과 표시 */
-        .menu-result {
-            text-align: center;
-            color: white;
-            font-size: 36px; /* 큰 글씨로 설정 */
+        /* 단어 스타일 */
+        .menu-item {
+            position: absolute;
+            font-size: 24px;
             font-weight: bold;
-            text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+            color: white;
+            opacity: 0; /* 초기 상태는 보이지 않음 */
+            animation: float 4s infinite; /* 떠다니는 애니메이션 */
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        /* 떠다니는 애니메이션 */
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1; /* 반짝이는 효과 */
+            }
+            100% {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
         }
 
         /* 버튼 */
@@ -67,13 +84,22 @@
             border-radius: 8px;
             box-shadow: 0 0 8px rgba(255, 0, 0, 0.7);
         }
+
+        /* 결과 표시 */
+        .menu-result {
+            text-align: center;
+            color: white;
+            font-size: 36px; /* 큰 글씨로 설정 */
+            font-weight: bold;
+            text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
         <div class="floating-box" id="menuItemsContainer">
-            <div class="menu-result" id="resultDisplay">추천 메뉴가 여기에 표시됩니다.</div>
+            <div class="menu-result" id="resultDisplay"></div>
         </div>
         <button class="spin-button" id="spinButton">🍽 메뉴 추천하기</button>
     </div>
@@ -104,8 +130,25 @@
                 '새우볶음밥', '간장계란밥'
             ];
 
+            const menuItemsContainer = document.getElementById("menuItemsContainer");
             const spinButton = document.getElementById("spinButton");
             const resultDisplay = document.getElementById("resultDisplay");
+
+            // 단어를 화면에 추가하고 애니메이션 설정
+            menuItems.forEach((menu) => {
+                const menuDiv = document.createElement("div");
+                menuDiv.className = "menu-item";
+                menuDiv.textContent = menu;
+                menuDiv.style.animationDelay = `${Math.random() * 2}s`; // 랜덤 딜레이
+
+                // 랜덤 위치 설정 (박스 내부)
+                const xPosition = Math.random() * 100;
+                const yPosition = Math.random() * 100;
+                menuDiv.style.left = `${xPosition}%`;
+                menuDiv.style.top = `${yPosition}%`;
+                
+                menuItemsContainer.appendChild(menuDiv);
+            });
 
             // 버튼 클릭 시 결과 표시
             spinButton.addEventListener("click", function () {
