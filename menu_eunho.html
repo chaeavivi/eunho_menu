@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>은호 추천 랜덤 메뉴</title>
     <meta property="og:title" content="은호 추천 랜덤 메뉴">
-    <meta property="og:description" content="은호의 점메추 저메추, 플리를 위한 랜덤으로 메뉴 추천">
-    <meta property="og:image" content="https://raw.githubusercontent.com/chaeavivi/eunho_menu/main/share.png"> <!-- 수정된 이미지 URL -->
-    <meta property="og:url" content="https://chaeavivi.github.io/eunho_menu/menu_eunho.html">
+    <meta property="og:description" content="랜덤으로 메뉴를 추천해주는 웹 애플리케이션입니다.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/chaeavivi/eunho_menu/main/share.png">
+    <meta property="og:url" content="페이지_URL_여기에_넣기">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/chaeavivi/eunho_menu/main/share.png"> <!-- 수정된 이미지 URL -->
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/chaeavivi/eunho_menu/main/share.png">
     <meta name="twitter:title" content="은호 추천 랜덤 메뉴">
-    <meta name="twitter:description" content="은호의 점메추 저메추, 플리를 위한 랜덤으로 메뉴 추천">
+    <meta name="twitter:description" content="랜덤으로 메뉴를 추천해주는 웹 애플리케이션입니다.">
     <style>
         /* 기본 설정 */
         body {
@@ -47,7 +45,8 @@
             flex-shrink: 0;
             border-radius: 20px;
             background: rgba(255, 255, 255, 0.00); /* 배경 색상 설정 */
-                   position: relative;
+        
+            position: relative;
             overflow: hidden; /* 넘치는 내용 숨김 */
             margin-top: 30px; /* 버튼과의 간격 */
             display: flex;
@@ -82,8 +81,8 @@
         }
 
         /* 버튼 */
-        .spin-button {
-            margin-top: 30px; /* 버튼과 메뉴 간의 간격 */
+        .spin-button, .reset-button {
+            margin-top: 10px; /* 버튼 간의 간격 */
             padding: 12px 25px;
             background: red;
             color: white;
@@ -111,6 +110,7 @@
             <div class="menu-result" id="resultDisplay"></div>
         </div>
         <button class="spin-button" id="spinButton">🍽 메뉴 추천하기</button>
+        <button class="reset-button" id="resetButton">🔄 다시 하기</button> <!-- 다시 하기 버튼 추가 -->
     </div>
 
     <script>
@@ -141,23 +141,29 @@
 
             const menuItemsContainer = document.getElementById("menuItemsContainer");
             const spinButton = document.getElementById("spinButton");
+            const resetButton = document.getElementById("resetButton");
             const resultDisplay = document.getElementById("resultDisplay");
 
             // 단어를 화면에 추가하고 애니메이션 설정
-            menuItems.forEach((menu) => {
-                const menuDiv = document.createElement("div");
-                menuDiv.className = "menu-item";
-                menuDiv.textContent = menu;
-                menuDiv.style.animationDelay = `${Math.random() * 2}s`; // 랜덤 딜레이
+            function addMenuItems() {
+                menuItemsContainer.innerHTML = ''; // 기존 메뉴 아이템 제거
+                menuItems.forEach((menu) => {
+                    const menuDiv = document.createElement("div");
+                    menuDiv.className = "menu-item";
+                    menuDiv.textContent = menu;
+                    menuDiv.style.animationDelay = `${Math.random() * 2}s`; // 랜덤 딜레이
 
-                // 랜덤 위치 설정 (박스 내부)
-                const xPosition = Math.random() * 100;
-                const yPosition = Math.random() * 100;
-                menuDiv.style.left = `${xPosition}%`;
-                menuDiv.style.top = `${yPosition}%`;
-                
-                menuItemsContainer.appendChild(menuDiv);
-            });
+                    // 랜덤 위치 설정 (박스 내부)
+                    const xPosition = Math.random() * 100;
+                    const yPosition = Math.random() * 100;
+                    menuDiv.style.left = `${xPosition}%`;
+                    menuDiv.style.top = `${yPosition}%`;
+                    
+                    menuItemsContainer.appendChild(menuDiv);
+                });
+            }
+
+            addMenuItems(); // 초기 메뉴 아이템 추가
 
             // 버튼 클릭 시 결과 표시
             spinButton.addEventListener("click", function () {
@@ -171,8 +177,15 @@
                 const selectedMenu = menuItems[Math.floor(Math.random() * menuItems.length)];
                 resultDisplay.textContent = selectedMenu; // 추천 메뉴를 결과 표시
             });
+
+            // 다시 하기 버튼 클릭 시
+            resetButton.addEventListener("click", function () {
+                resultDisplay.textContent = ''; // 결과 초기화
+                addMenuItems(); // 메뉴 아이템 다시 추가
+            });
         });
     </script>
 
 </body>
 </html>
+``
