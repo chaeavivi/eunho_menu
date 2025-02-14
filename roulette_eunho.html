@@ -26,12 +26,12 @@
 
         .roulette-container {
             position: absolute;
-            top: 60%;
+            top: 55%;
             width: 250px;
             height: 250px;
             border-radius: 50%;
             border: 8px solid red;
-            background: black;
+            background: transparent;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -52,10 +52,10 @@
 
         .spin-button {
             position: absolute;
-            top: 75%;
+            top: 90%;
             left: 50%;
             transform: translateX(-50%);
-            padding: 10px 20px;
+            padding: 12px 25px;
             background: red;
             color: white;
             font-weight: bold;
@@ -63,7 +63,7 @@
             cursor: pointer;
             z-index: 10;
             font-size: 18px;
-            border-radius: 10px;
+            border-radius: 12px;
             box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
         }
 
@@ -72,10 +72,20 @@
             top: 85%;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 20px;
+            font-size: 22px;
             font-weight: bold;
             color: white;
             text-shadow: 0 0 8px rgba(255, 0, 0, 0.8);
+        }
+
+        .menu-item {
+            position: absolute;
+            left: 50%;
+            transform-origin: center;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
         }
     </style>
 </head>
@@ -120,6 +130,16 @@
             const spinButton = document.getElementById("spinButton");
             const resultDisplay = document.getElementById("resultDisplay");
             let spinning = false;
+
+            // 메뉴 아이템을 룰렛 위에 표시
+            menuItems.forEach((menu, index) => {
+                const angle = (360 / menuItems.length) * index;
+                const menuDiv = document.createElement("div");
+                menuDiv.className = "menu-item";
+                menuDiv.style.transform = `rotate(${angle}deg) translateY(-100px) rotate(-${angle}deg)`;
+                menuDiv.textContent = menu;
+                roulette.appendChild(menuDiv);
+            });
 
             spinButton.addEventListener("click", function () {
                 if (!spinning) {
