@@ -1,125 +1,123 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>은호 메뉴 룰렛</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url("https://raw.githubusercontent.com/chaeavivi/eunho_menu/main/eunhobg.png") no-repeat center center/cover;
+        }
 
-const MenuRoulette = () => {
-  const [spinning, setSpinning] = useState(false);
-  const [selectedMenu, setSelectedMenu] = useState(null);
-  const [rotationDegree, setRotationDegree] = useState(0);
+        .roulette-container {
+            position: absolute;
+            left: 85px;
+            top: 560px;
+            transform: translate(-50%, -50%);
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            border: 5px solid red;
+            background: gray;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+        }
 
-  // 전체 메뉴 데이터
-  const menuItems = [
-    "닭볶음탕", "물냉면", "비빔냉면", "바지락칼국수", "회냉면", 
-    "낙지한마리칼국수", "삼겹살", "우삼겹", "깍두기볶음밥",
-    "김치찜", "된장찌개", "부대찌개", "돼지김치찌개",
-    "보쌈", "족발", "막국수", "수제비",
-    "떡만두국", "소머리곰탕", "갈비탕", "갈비찜",
-    "쪽갈비", "등갈비", "순두부찌개", "육개장",
-    "청국장뚝배기", "불고기", "쌈밥",
-    "규카츠", "냉우동", "냉모밀", "돈까스",
-    "로스카츠", "히레카츠", "우육면",
-    "야끼만두", "짜장면", "짬뽕우동", "꿔바로우",
-    "피자", "치킨", "햄버거", "치즈김치도리아",
-    "리조또", "파스타", "까르보나라", "알리오올리오",
-    "스시", "오므라이스", "계란말이", "햄구이토스트",
-    "샌드위치", "브리또", "트러플오일파스타",
-    "브리치즈파스타", "카레덮밥", "즉석떡볶이",
-    "치즈떡볶이", "짜장떡볶이", "떡라면", "치즈라면",
-    "철판치즈김치볶음밥", "치즈김밥", "오징어덮밥",
-    "제육덮밥", "새우볶음밥", "간장계란밥"
-  ];
+        .pointer {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: red;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
 
-  const spinRoulette = () => {
-    if (!spinning) {
-      setSpinning(true);
-      const newRotation = rotationDegree + 1800 + Math.random() * 360;
-      setRotationDegree(newRotation);
+        .spin-button {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background: red;
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
 
-      setTimeout(() => {
-        const randomMenu = menuItems[Math.floor(Math.random() * menuItems.length)];
-        setSelectedMenu(randomMenu);
-        setSpinning(false);
-      }, 3000);
-    }
-  };
+        .menu-result {
+            position: absolute;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 0 8px rgba(255, 0, 0, 0.8);
+        }
+    </style>
+</head>
+<body>
 
-  return (
-    <div className="relative w-[430px] h-[1068px] overflow-hidden">
-      {/* 배경 이미지 */}
-      <img
-        src="https://raw.githubusercontent.com/chaeavivi/eunho_menu/main/eunhobg.png"
-        alt="background"
-        className="absolute w-full h-full object-cover"
-      />
-
-      {/* 룰렛 컨테이너 */}
-      <div
-        className="absolute"
-        style={{
-          left: "85px",
-          top: "560px",
-          transform: "translate(-50%, -50%)"
-        }}
-      >
-        <div className="relative w-64 h-64">
-          {/* 룰렛 */}
-          <motion.div
-            className="w-full h-full rounded-full border-4 border-red-500 relative overflow-hidden
-                     bg-gray-800 shadow-[0_0_15px_rgba(255,0,0,0.3)]"
-            animate={{ rotate: rotationDegree }}
-            transition={{ duration: 3, ease: "easeOut" }}
-          >
-            {menuItems.map((menu, index) => {
-              const angle = (360 / menuItems.length) * index;
-              return (
-                <div
-                  key={menu}
-                  className="absolute w-full h-full text-center"
-                  style={{ transform: `rotate(${angle}deg)` }}
-                >
-                  <span
-                    className="absolute left-1/2 -translate-x-1/2 top-1 text-white text-[10px]
-                             transform -rotate-90 whitespace-nowrap"
-                  >
-                    {menu}
-                  </span>
-                </div>
-              );
-            })}
-          </motion.div>
-
-          {/* 포인터 */}
-          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <div className="w-6 h-6 bg-red-500 rotate-45" />
-          </div>
-
-          {/* 클릭 버튼 */}
-          <button
-            onClick={spinRoulette}
-            disabled={spinning}
-            className="absolute inset-0 w-full h-full rounded-full cursor-pointer 
-                     focus:outline-none disabled:cursor-not-allowed"
-            aria-label="룰렛 돌리기"
-          />
-        </div>
-
-        {/* 결과 표시 */}
-        <AnimatePresence>
-          {selectedMenu && !spinning && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              className="text-center mt-6"
-            >
-              <span className="text-2xl font-bold text-white drop-shadow-[0_0_8px_rgba(255,0,0,0.8)]">
-                {selectedMenu}
-              </span>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+    <!-- 룰렛 -->
+    <div class="roulette-container">
+        <div class="pointer"></div>
+        <button class="spin-button">🎡 룰렛 돌리기</button>
+        <div class="menu-result"></div>
     </div>
-  );
-};
 
-export default MenuRoulette;
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuItems = [
+                "닭볶음탕", "물냉면", "비빔냉면", "바지락칼국수", "회냉면", 
+                "낙지한마리칼국수", "삼겹살", "우삼겹", "깍두기볶음밥",
+                "김치찜", "된장찌개", "부대찌개", "돼지김치찌개",
+                "보쌈", "족발", "막국수", "수제비",
+                "떡만두국", "소머리곰탕", "갈비탕", "갈비찜",
+                "쪽갈비", "등갈비", "순두부찌개", "육개장",
+                "청국장뚝배기", "불고기", "쌈밥", "규카츠",
+                "냉우동", "냉모밀", "돈까스", "로스카츠",
+                "히레카츠", "우육면", "야끼만두", "짜장면",
+                "짬뽕우동", "꿔바로우", "피자", "치킨",
+                "햄버거", "치즈김치도리아", "리조또", "파스타",
+                "까르보나라", "알리오올리오", "스시", "오므라이스",
+                "계란말이", "햄구이토스트", "샌드위치", "브리또",
+                "트러플오일파스타", "브리치즈파스타", "카레덮밥",
+                "즉석떡볶이", "치즈떡볶이", "짜장떡볶이", "떡라면",
+                "치즈라면", "철판치즈김치볶음밥", "치즈김밥", "오징어덮밥",
+                "제육덮밥", "새우볶음밥", "간장계란밥"
+            ];
+
+            const spinButton = document.querySelector(".spin-button");
+            const resultDisplay = document.querySelector(".menu-result");
+            let spinning = false;
+
+            spinButton.addEventListener("click", function () {
+                if (!spinning) {
+                    spinning = true;
+                    spinButton.disabled = true;
+
+                    let randomMenu = menuItems[Math.floor(Math.random() * menuItems.length)];
+
+                    setTimeout(() => {
+                        resultDisplay.textContent = `🍽 선택된 메뉴: ${randomMenu}`;
+                        spinning = false;
+                        spinButton.disabled = false;
+                    }, 3000);
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
