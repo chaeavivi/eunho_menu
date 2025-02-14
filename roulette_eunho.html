@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>은호 추천 랜덤 메뉴</title>
     <style>
+        /* 기본 설정 */
         body {
             margin: 0;
             overflow: hidden;
@@ -15,40 +16,37 @@
             background: url("https://raw.githubusercontent.com/chaeavivi/eunho_menu/main/eunhobg.png") no-repeat center center/cover;
         }
 
+        /* 컨테이너 설정 (스크롤 가능하도록 수정) */
         .container {
             position: relative;
             width: 430px;
             height: 1068px;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-
-
-            .container {
-    overflow-y: auto; /* 세로 스크롤 추가 */
-    overflow-x: hidden; /* 가로 스크롤 방지 */
-    max-height: 100vh; /* 화면 높이 이상 넘어가면 스크롤 */
-}
-
-/* 스크롤바 디자인 (선택 사항) */
-.container::-webkit-scrollbar {
-    width: 5px;
-}
-
-.container::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 10px;
-}
-
-.container::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.3);
-}
-
+            overflow-y: auto; /* 세로 스크롤 추가 */
+            overflow-x: hidden; /* 가로 스크롤 방지 */
+            max-height: 100vh; /* 화면을 넘어가면 스크롤 */
         }
 
+        /* 스크롤바 스타일 */
+        .container::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+        }
+
+        .container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        /* 룰렛 디자인 */
         .roulette-container {
-            position: absolute;
-            top: 50%;
+            position: relative;
             width: 240px;
             height: 240px;
             border-radius: 50%;
@@ -59,8 +57,10 @@
             align-items: center;
             box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
             transition: transform 3s ease-out;
+            margin-top: 20px; /* 룰렛 위쪽 간격 조정 */
         }
 
+        /* 룰렛 포인터 */
         .pointer {
             position: absolute;
             top: -10px;
@@ -72,11 +72,10 @@
             clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
         }
 
+        /* 버튼 디자인 */
         .spin-button {
-            position: absolute;
-            top: 80%;
-            left: 50%;
-            transform: translateX(-50%);
+            position: relative;
+            margin-top: 30px; /* 버튼 위치 조정 */
             padding: 10px 20px;
             background: red;
             color: white;
@@ -89,17 +88,18 @@
             box-shadow: 0 0 8px rgba(255, 0, 0, 0.7);
         }
 
+        /* 선택된 메뉴 결과 */
         .menu-result {
-            position: absolute;
-            top: 75%;
-            left: 50%;
-            transform: translateX(-50%);
+            position: relative;
+            margin-top: 20px;
             font-size: 18px;
             font-weight: bold;
             color: white;
             text-shadow: 0 0 6px rgba(255, 0, 0, 0.8);
+            text-align: center;
         }
 
+        /* 룰렛 내부 텍스트 */
         .menu-item {
             position: absolute;
             left: 50%;
@@ -113,7 +113,6 @@
 </head>
 <body>
 
-    
     <div class="container">
         <!-- 룰렛 -->
         <div class="roulette-container" id="roulette">
@@ -143,10 +142,7 @@
                 "햄버거", "치즈김치도리아", "리조또", "파스타",
                 "까르보나라", "알리오올리오", "스시", "오므라이스",
                 "계란말이", "햄구이토스트", "샌드위치", "브리또",
-                "트러플오일파스타", "브리치즈파스타", "카레덮밥",
-                "즉석떡볶이", "치즈떡볶이", "짜장떡볶이", "떡라면",
-                "치즈라면", "철판치즈김치볶음밥", "치즈김밥", "오징어덮밥",
-                "제육덮밥", "새우볶음밥", "간장계란밥"
+                "트러플오일파스타", "브리치즈파스타", "카레덮밥"
             ];
 
             const roulette = document.getElementById("roulette");
@@ -154,7 +150,7 @@
             const resultDisplay = document.getElementById("resultDisplay");
             let spinning = false;
 
-            // 메뉴 아이템을 룰렛 위에 표시 (겹침 해결)
+            // 룰렛 내부 메뉴 표시
             menuItems.forEach((menu, index) => {
                 const angle = (360 / menuItems.length) * index;
                 const menuDiv = document.createElement("div");
@@ -164,6 +160,7 @@
                 roulette.appendChild(menuDiv);
             });
 
+            // 룰렛 돌리기 기능
             spinButton.addEventListener("click", function () {
                 if (!spinning) {
                     spinning = true;
