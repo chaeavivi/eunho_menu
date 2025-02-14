@@ -37,8 +37,7 @@
             flex-shrink: 0;
             border-radius: 20px;
             background: rgba(255, 255, 255, 0.00); /* 배경 색상 설정 */
-        
-            position: relative;
+                   position: relative;
             overflow: hidden; /* 넘치는 내용 숨김 */
             margin-top: 30px; /* 버튼과의 간격 */
             display: flex;
@@ -152,6 +151,13 @@
 
             // 버튼 클릭 시 결과 표시
             spinButton.addEventListener("click", function () {
+                // 애니메이션 제거
+                const menuItemsDivs = document.querySelectorAll('.menu-item');
+                menuItemsDivs.forEach(div => {
+                    div.style.animation = 'none'; // 애니메이션 제거
+                });
+
+                // 추천 메뉴 표시
                 const selectedMenu = menuItems[Math.floor(Math.random() * menuItems.length)];
                 resultDisplay.textContent = selectedMenu; // 추천 메뉴를 결과 표시
             });
