@@ -45,7 +45,6 @@
             flex-shrink: 0;
             border-radius: 20px;
             background: rgba(255, 255, 255, 0.00); /* 배경 색상 설정 */
-        
             position: relative;
             overflow: hidden; /* 넘치는 내용 숨김 */
             margin-top: 30px; /* 버튼과의 간격 */
@@ -53,6 +52,7 @@
             justify-content: center;
             align-items: center;
         }
+
 
         /* 단어 스타일 */
         .menu-item {
@@ -81,8 +81,8 @@
         }
 
         /* 버튼 */
-        .spin-button, .reset-button {
-            margin-top: 10px; /* 버튼 간의 간격 */
+        .spin-button {
+            margin-top: 30px; /* 버튼과 메뉴 간의 간격 */
             padding: 12px 25px;
             background: red;
             color: white;
@@ -99,7 +99,7 @@
             color: white;
             font-size: 36px; /* 큰 글씨로 설정 */
             font-weight: bold;
-            text-shadow: 2px 2px 5px rgba(255, 0, 0, 0.7); /* 빨간색 블러 효과 */
+            text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
         }
     </style>
 </head>
@@ -110,7 +110,6 @@
             <div class="menu-result" id="resultDisplay"></div>
         </div>
         <button class="spin-button" id="spinButton">🍽 메뉴 추천하기</button>
-        <button class="reset-button" id="resetButton">🔄 다시 하기</button> <!-- 다시 하기 버튼 추가 -->
     </div>
 
     <script>
@@ -141,29 +140,23 @@
 
             const menuItemsContainer = document.getElementById("menuItemsContainer");
             const spinButton = document.getElementById("spinButton");
-            const resetButton = document.getElementById("resetButton");
             const resultDisplay = document.getElementById("resultDisplay");
 
             // 단어를 화면에 추가하고 애니메이션 설정
-            function addMenuItems() {
-                menuItemsContainer.innerHTML = ''; // 기존 메뉴 아이템 제거
-                menuItems.forEach((menu) => {
-                    const menuDiv = document.createElement("div");
-                    menuDiv.className = "menu-item";
-                    menuDiv.textContent = menu;
-                    menuDiv.style.animationDelay = `${Math.random() * 2}s`; // 랜덤 딜레이
+            menuItems.forEach((menu) => {
+                const menuDiv = document.createElement("div");
+                menuDiv.className = "menu-item";
+                menuDiv.textContent = menu;
+                menuDiv.style.animationDelay = `${Math.random() * 2}s`; // 랜덤 딜레이
 
-                    // 랜덤 위치 설정 (박스 내부)
-                    const xPosition = Math.random() * 100;
-                    const yPosition = Math.random() * 100;
-                    menuDiv.style.left = `${xPosition}%`;
-                    menuDiv.style.top = `${yPosition}%`;
-                    
-                    menuItemsContainer.appendChild(menuDiv);
-                });
-            }
-
-            addMenuItems(); // 초기 메뉴 아이템 추가
+                // 랜덤 위치 설정 (박스 내부)
+                const xPosition = Math.random() * 100;
+                const yPosition = Math.random() * 100;
+                menuDiv.style.left = `${xPosition}%`;
+                menuDiv.style.top = `${yPosition}%`;
+                
+                menuItemsContainer.appendChild(menuDiv);
+            });
 
             // 버튼 클릭 시 결과 표시
             spinButton.addEventListener("click", function () {
@@ -177,15 +170,8 @@
                 const selectedMenu = menuItems[Math.floor(Math.random() * menuItems.length)];
                 resultDisplay.textContent = selectedMenu; // 추천 메뉴를 결과 표시
             });
-
-            // 다시 하기 버튼 클릭 시
-            resetButton.addEventListener("click", function () {
-                resultDisplay.textContent = ''; // 결과 초기화
-                addMenuItems(); // 메뉴 아이템 다시 추가
-            });
         });
     </script>
 
 </body>
 </html>
-``
