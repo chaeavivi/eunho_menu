@@ -22,13 +22,25 @@
             max-height: 90vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start; /* 내용 시작점 조정 */
             align-items: center;
             padding: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            background: transparent; /* 투명 배경으로 설정 */
+            border-radius: 10px; /* 모서리 둥글게 */
             z-index: 1;
+        }
+
+        /* 단어를 담을 박스 */
+        .floating-box {
+            width: 342px;
+            height: 326px;
+            flex-shrink: 0;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.25); /* 배경 색상 설정 */
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset; /* 그림자 설정 */
+            position: relative;
+            overflow: hidden; /* 넘치는 내용 숨김 */
+            margin-top: 20px; /* 버튼과의 간격 */
         }
 
         /* 단어 스타일 */
@@ -59,7 +71,7 @@
 
         /* 버튼 */
         .spin-button {
-            margin-top: 30px;
+            margin-top: 30px; /* 버튼과 메뉴 간의 간격 */
             padding: 12px 25px;
             background: red;
             color: white;
@@ -83,7 +95,7 @@
 <body>
 
     <div class="container">
-        <div id="menuItemsContainer"></div>
+        <div class="floating-box" id="menuItemsContainer"></div>
         <button class="spin-button" id="spinButton">🍽 메뉴 추천하기</button>
         <div class="menu-result" id="resultDisplay"></div>
     </div>
@@ -91,7 +103,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const menuItems = [
-                  // 한식
+                    // 한식
     '닭볶음탕', '물냉면', '비빔냉면', '바지락칼국수', '회냉면', 
     '낙지한마리칼국수', '삼겹살', '우삼겹', '깍두기볶음밥',
     '김치찜', '된장찌개', '부대찌개', '돼지김치찌개',
@@ -125,19 +137,23 @@
     '새우볶음밥', '간장계란밥'
   ];
 
-
             const menuItemsContainer = document.getElementById("menuItemsContainer");
             const spinButton = document.getElementById("spinButton");
             const resultDisplay = document.getElementById("resultDisplay");
 
             // 단어를 화면에 추가하고 애니메이션 설정
-            menuItems.forEach((menu, index) => {
+            menuItems.forEach((menu) => {
                 const menuDiv = document.createElement("div");
                 menuDiv.className = "menu-item";
                 menuDiv.textContent = menu;
                 menuDiv.style.animationDelay = `${Math.random() * 2}s`; // 랜덤 딜레이
-                menuDiv.style.left = `${Math.random() * 100}%`; // 랜덤 위치
-                menuDiv.style.top = `${Math.random() * 100}%`; // 랜덤 위치
+
+                // 랜덤 위치 설정 (박스 내부)
+                const xPosition = Math.random() * 100;
+                const yPosition = Math.random() * 100;
+                menuDiv.style.left = `${xPosition}%`;
+                menuDiv.style.top = `${yPosition}%`;
+                
                 menuItemsContainer.appendChild(menuDiv);
             });
 
