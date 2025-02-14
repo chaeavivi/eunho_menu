@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>은호 추천 랜덤 메뉴</title>
+    <style>
+        /* 기본 설정 */
+        body {
+            margin: 0;
+            background: #111827 url('https://raw.githubusercontent.com/chaeavivi/eunho_menu/main/eunhobg.png') no-repeat center center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* 컨테이너 */
+        .container {
+            position: relative;
+            width: 430px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        /* 단어 스타일 */
+        .menu-item {
+            position: absolute;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            opacity: 0; /* 초기 상태는 보이지 않음 */
+            animation: float 4s infinite; /* 떠다니는 애니메이션 */
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        /* 떠다니는 애니메이션 */
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1; /* 반짝이는 효과 */
+            }
+            100% {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+        }
+
+        /* 버튼 */
+        .spin-button {
+            margin-top: 30px;
+            padding: 12px 25px;
+            background: red;
+            color: white;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(255, 0, 0, 0.7);
+        }
+
+        /* 결과 표시 */
+        .menu-result {
+            text-align: center;
+            color: white;
+            font-size: 18px;
+            text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="menuItemsContainer"></div>
+        <button class="spin-button" id="spinButton">🍽 메뉴 추천하기</button>
+        <div class="menu-result" id="resultDisplay"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuItems = [
+                  // 한식
+    '닭볶음탕', '물냉면', '비빔냉면', '바지락칼국수', '회냉면', 
+    '낙지한마리칼국수', '삼겹살', '우삼겹', '깍두기볶음밥',
+    '김치찜', '된장찌개', '부대찌개', '돼지김치찌개',
+    '보쌈', '족발', '막국수', '수제비',
+    '떡만두국', '소머리곰탕', '갈비탕', '갈비찜',
+    '쪽갈비', '등갈비', '순두부찌개', '육개장',
+    '청국장뚝배기', '불고기', '쌈밥',
+
+    // 일식
+    '규카츠', '냉우동', '냉모밀', '돈까스',
+    '로스카츠', '히레카츠', '우육면',
+    '야끼만두',
+
+    // 중식
+    '짜장면', '짬뽕우동', '꿔바로우',
+
+    // 퓨전/양식
+    '피자', '치킨', '햄버거',
+    '치즈김치도리아', '리조또', '파스타',
+    '까르보나라', '알리오올리오',
+    '스시', '오므라이스', '계란말이',
+    '햄구이토스트', '샌드위치', '브리또',
+    '트러플오일파스타', '브리치즈파스타',
+    '카레덮밥',
+
+    // 분식/덮밥
+    '즉석떡볶이', '치즈떡볶이', '짜장떡볶이',
+    '떡라면', '치즈라면',
+    '철판치즈김치볶음밥', '치즈김밥',
+    '오징어덮밥', '제육덮밥',
+    '새우볶음밥', '간장계란밥'
+  ];
+
+
+            const menuItemsContainer = document.getElementById("menuItemsContainer");
+            const spinButton = document.getElementById("spinButton");
+            const resultDisplay = document.getElementById("resultDisplay");
+
+            // 단어를 화면에 추가하고 애니메이션 설정
+            menuItems.forEach((menu, index) => {
+                const menuDiv = document.createElement("div");
+                menuDiv.className = "menu-item";
+                menuDiv.textContent = menu;
+                menuDiv.style.animationDelay = `${Math.random() * 2}s`; // 랜덤 딜레이
+                menuDiv.style.left = `${Math.random() * 100}%`; // 랜덤 위치
+                menuDiv.style.top = `${Math.random() * 100}%`; // 랜덤 위치
+                menuItemsContainer.appendChild(menuDiv);
+            });
+
+            // 버튼 클릭 시 결과 표시
+            spinButton.addEventListener("click", function () {
+                const selectedMenu = menuItems[Math.floor(Math.random() * menuItems.length)];
+                resultDisplay.textContent = `🍽 선택된 메뉴: ${selectedMenu}`;
+            });
+        });
+    </script>
+
+</body>
+</html>
