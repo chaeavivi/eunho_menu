@@ -26,9 +26,9 @@
 
         .roulette-container {
             position: absolute;
-            top: 55%;
-            width: 250px;
-            height: 250px;
+            top: 50%;
+            width: 240px;
+            height: 240px;
             border-radius: 50%;
             border: 8px solid red;
             background: transparent;
@@ -41,51 +41,51 @@
 
         .pointer {
             position: absolute;
-            top: -12px;
+            top: -10px;
             left: 50%;
             transform: translateX(-50%);
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             background: red;
             clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
         }
 
         .spin-button {
             position: absolute;
-            top: 90%;
+            top: 80%;
             left: 50%;
             transform: translateX(-50%);
-            padding: 12px 25px;
+            padding: 10px 20px;
             background: red;
             color: white;
             font-weight: bold;
             border: none;
             cursor: pointer;
             z-index: 10;
-            font-size: 18px;
-            border-radius: 12px;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+            font-size: 16px;
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(255, 0, 0, 0.7);
         }
 
         .menu-result {
             position: absolute;
-            top: 85%;
+            top: 75%;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 22px;
+            font-size: 18px;
             font-weight: bold;
             color: white;
-            text-shadow: 0 0 8px rgba(255, 0, 0, 0.8);
+            text-shadow: 0 0 6px rgba(255, 0, 0, 0.8);
         }
 
         .menu-item {
             position: absolute;
             left: 50%;
             transform-origin: center;
-            font-size: 12px;
+            font-size: 10px;
             font-weight: bold;
             color: white;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+            text-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
         }
     </style>
 </head>
@@ -131,12 +131,12 @@
             const resultDisplay = document.getElementById("resultDisplay");
             let spinning = false;
 
-            // 메뉴 아이템을 룰렛 위에 표시
+            // 메뉴 아이템을 룰렛 위에 표시 (겹침 해결)
             menuItems.forEach((menu, index) => {
                 const angle = (360 / menuItems.length) * index;
                 const menuDiv = document.createElement("div");
                 menuDiv.className = "menu-item";
-                menuDiv.style.transform = `rotate(${angle}deg) translateY(-100px) rotate(-${angle}deg)`;
+                menuDiv.style.transform = `rotate(${angle}deg) translateY(-90px) rotate(-${angle}deg)`;
                 menuDiv.textContent = menu;
                 roulette.appendChild(menuDiv);
             });
