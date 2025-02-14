@@ -59,7 +59,7 @@
             align-items: center;
             transition: transform 3s ease-out;
             margin-bottom: 20px; /* 룰렛과 버튼 간격 */
-            margin-top: 50px; /* 룰렛 위쪽 여백 추가 */
+            margin-top: 80px; /* 룰렛 위쪽 여백 추가 (값을 증가시켜 더 아래로 이동) */
         }
 
         /* 룰렛 포인터 */
@@ -88,7 +88,7 @@
 
         /* 버튼 */
         .spin-button {
-            margin-top: 30px;
+            margin-top: 30px; /* 버튼과 룰렛 간의 간격 */
             padding: 12px 25px;
             background: red;
             color: white;
@@ -156,7 +156,6 @@
     '오징어덮밥', '제육덮밥',
     '새우볶음밥', '간장계란밥'
   ];
-
 
             const roulette = document.getElementById("roulette");
             const spinButton = document.getElementById("spinButton");
