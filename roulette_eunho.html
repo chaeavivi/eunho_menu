@@ -22,12 +22,12 @@
             max-height: 90vh; /* 화면 높이의 90%로 설정 */
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start; /* 내용 시작점 조정 */
             align-items: center;
             overflow-y: auto; /* 스크롤 가능 */
             overflow-x: hidden; /* 가로 스크롤 방지 */
             padding: 20px; /* 내부 여백 추가 */
-            background: rgba(255, 255, 255, 0.8); /* 배경 색상 추가 */
+            background: transparent; /* 배경 투명으로 설정 */
             border-radius: 10px; /* 모서리 둥글게 */
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* 그림자 추가 */
         }
@@ -59,6 +59,7 @@
             align-items: center;
             transition: transform 3s ease-out;
             margin-bottom: 20px; /* 룰렛과 버튼 간격 */
+            margin-top: 50px; /* 룰렛 위쪽 여백 추가 */
         }
 
         /* 룰렛 포인터 */
@@ -156,7 +157,6 @@
     '새우볶음밥', '간장계란밥'
   ];
 
-           
 
             const roulette = document.getElementById("roulette");
             const spinButton = document.getElementById("spinButton");
