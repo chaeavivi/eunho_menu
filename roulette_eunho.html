@@ -111,4 +111,58 @@
 <body>
 
     <div class="container">
-        <div class="roulette-container" id="roulette
+        <div class="roulette-container" id="roulette">
+            <div class="pointer"></div>
+        </div>
+
+        <button class="spin-button" id="spinButton">🎡 룰렛 돌리기</button>
+        <div class="menu-result" id="resultDisplay"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuItems = [
+                "닭볶음탕", "물냉면", "비빔냉면", "바지락칼국수", "회냉면", 
+                "낙지한마리칼국수", "삼겹살", "우삼겹", "깍두기볶음밥",
+                "김치찜", "된장찌개", "부대찌개", "돼지김치찌개",
+                "보쌈", "족발", "막국수", "수제비",
+                "떡만두국", "소머리곰탕", "갈비탕", "갈비찜"
+            ];
+
+            const roulette = document.getElementById("roulette");
+            const spinButton = document.getElementById("spinButton");
+            const resultDisplay = document.getElementById("resultDisplay");
+            let spinning = false;
+
+            // 룰렛 내부 메뉴 표시
+            menuItems.forEach((menu, index) => {
+                const angle = (360 / menuItems.length) * index;
+                const menuDiv = document.createElement("div");
+                menuDiv.className = "menu-item";
+                menuDiv.style.transform = `rotate(${angle}deg) translateY(-100px) rotate(-${angle}deg)`;
+                menuDiv.textContent = menu;
+                roulette.appendChild(menuDiv);
+            });
+
+            // 룰렛 돌리기 기능
+            spinButton.addEventListener("click", function () {
+                if (!spinning) {
+                    spinning = true;
+                    spinButton.disabled = true;
+
+                    let randomRotation = 1800 + Math.floor(Math.random() * 360);
+                    roulette.style.transform = `rotate(${randomRotation}deg)`;
+
+                    setTimeout(() => {
+                        const selectedMenu = menuItems[Math.floor(Math.random() * menuItems.length)];
+                        resultDisplay.textContent = `🍽 선택된 메뉴: ${selectedMenu}`;
+                        spinning = false;
+                        spinButton.disabled = false;
+                    }, 3000);
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
