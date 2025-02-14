@@ -6,8 +6,9 @@ const MenuRoulette = () => {
   const [selectedMenu, setSelectedMenu] = useState(null);
   const [rotationDegree, setRotationDegree] = useState(0);
 
+  // 전체 메뉴 데이터
   const menuItems = [
-    // 모든 메뉴 항목들...
+    // 한식
     '닭볶음탕', '물냉면', '비빔냉면', '바지락칼국수', '회냉면', 
     '낙지한마리칼국수', '삼겹살', '우삼겹', '깍두기볶음밥',
     '김치찜', '된장찌개', '부대찌개', '돼지김치찌개',
@@ -15,14 +16,30 @@ const MenuRoulette = () => {
     '떡만두국', '소머리곰탕', '갈비탕', '갈비찜',
     '쪽갈비', '등갈비', '순두부찌개', '육개장',
     '청국장뚝배기', '불고기', '쌈밥',
+
+    // 일식
     '규카츠', '냉우동', '냉모밀', '돈까스',
-    '로스카츠', '히레카츠', '우육면', '야끼만두',
+    '로스카츠', '히레카츠', '우육면',
+    '야끼만두',
+
+    // 중식
     '짜장면', '짬뽕우동', '꿔바로우',
-    '피자', '치킨', '햄버거', '치즈김치도리아', 
-    '리조또', '파스타', '까르보나라', '알리오올리오',
-    '스시', '오므라이스', '계란말이', '햄구이토스트', 
-    '샌드위치', '브리또', '트러플오일파스타', 
-    '브리치즈파스타', '카레덮밥'
+
+    // 퓨전/양식
+    '피자', '치킨', '햄버거',
+    '치즈김치도리아', '리조또', '파스타',
+    '까르보나라', '알리오올리오',
+    '스시', '오므라이스', '계란말이',
+    '햄구이토스트', '샌드위치', '브리또',
+    '트러플오일파스타', '브리치즈파스타',
+    '카레덮밥',
+
+    // 분식/덮밥
+    '즉석떡볶이', '치즈떡볶이', '짜장떡볶이',
+    '떡라면', '치즈라면',
+    '철판치즈김치볶음밥', '치즈김밥',
+    '오징어덮밥', '제육덮밥',
+    '새우볶음밥', '간장계란밥'
   ];
 
   const spinRoulette = () => {
@@ -41,24 +58,22 @@ const MenuRoulette = () => {
 
   return (
     <div className="relative w-[430px] h-[1068px]">
-      {/* 배경 이미지가 들어갈 자리 */}
-      <div className="absolute inset-0 bg-[#0A0A1E]">
-  <div className="absolute inset-0">
-  <img 
-    src="https://raw.githubusercontent.com/chaeavivi/eunho_menu/main/eunhobg.png
-" 
-    alt="background" 
-    className="w-full h-full object-cover"
-  />
-</div>
-   
+      {/* 배경 이미지 */}
+      <div className="absolute inset-0">
+        <img 
+          src="https://raw.githubusercontent.com/chaeavivi/eunho_menu/main/eunhobg.png"
+          alt="background" 
+          className="w-full h-full object-cover"
+        />
+      </div>
 
-      {/* 룰렛 섹션 - 정확한 위치에 배치 */}
+      {/* 룰렛 컨테이너 */}
       <div className="absolute" style={{ left: '85px', top: '560px' }}>
         <div className="relative w-64 h-64">
+          {/* 룰렛 */}
           <motion.div
             className="w-full h-full rounded-full border-4 border-red-500 relative overflow-hidden
-                     bg-[#808080] shadow-[0_0_15px_rgba(255,0,0,0.3)]"
+                     bg-gray-800 shadow-[0_0_15px_rgba(255,0,0,0.3)]"
             animate={{ rotate: rotationDegree }}
             transition={{ duration: 3, ease: "easeOut" }}
           >
@@ -68,12 +83,10 @@ const MenuRoulette = () => {
                 <div
                   key={menu}
                   className="absolute w-full h-full text-center"
-                  style={{
-                    transform: `rotate(${angle}deg)`,
-                  }}
+                  style={{ transform: `rotate(${angle}deg)` }}
                 >
                   <span
-                    className="absolute left-1/2 -translate-x-1/2 top-2 text-white text-xs
+                    className="absolute left-1/2 -translate-x-1/2 top-1 text-white text-[10px]
                              transform -rotate-90 whitespace-nowrap"
                   >
                     {menu}
@@ -82,7 +95,7 @@ const MenuRoulette = () => {
               );
             })}
           </motion.div>
-          
+
           {/* 포인터 */}
           <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <div className="w-6 h-6 bg-red-500 rotate-45" />
@@ -92,11 +105,13 @@ const MenuRoulette = () => {
           <button
             onClick={spinRoulette}
             disabled={spinning}
-            className="absolute inset-0 w-full h-full rounded-full cursor-pointer focus:outline-none disabled:cursor-not-allowed"
+            className="absolute inset-0 w-full h-full rounded-full cursor-pointer 
+                     focus:outline-none disabled:cursor-not-allowed"
+            aria-label="룰렛 돌리기"
           />
         </div>
 
-        {/* 결과 */}
+        {/* 결과 표시 */}
         <AnimatePresence>
           {selectedMenu && !spinning && (
             <motion.div
@@ -105,8 +120,7 @@ const MenuRoulette = () => {
               exit={{ opacity: 0 }}
               className="text-center mt-6"
             >
-              <span className="text-2xl font-bold text-white
-                           drop-shadow-[0_0_8px_rgba(255,0,0,0.8)]">
+              <span className="text-2xl font-bold text-white drop-shadow-[0_0_8px_rgba(255,0,0,0.8)]">
                 {selectedMenu}
               </span>
             </motion.div>
