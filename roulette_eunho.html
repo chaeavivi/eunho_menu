@@ -7,73 +7,75 @@
     <style>
         body {
             margin: 0;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: url("https://raw.githubusercontent.com/chaeavivi/eunho_menu/main/eunhobg.png") no-repeat center center/cover;
+            padding: 0;
+            width: 430px;
+            height: 1068px;
+            position: relative;
+            background: url("https://raw.githubusercontent.com/chaeavivi/eunho_menu/main/eunhobg.png") no-repeat center center;
+            background-size: contain;
         }
-
         .roulette-container {
             position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            width: 250px;
-            height: 250px;
-            border-radius: 50%;
-            border: 5px solid red;
-            background: gray;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+            left: 85px;
+            top: 560px;
+            width: 256px;
+            height: 256px;
         }
-
+        .roulette {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 4px solid #ff0000;
+            background: #808080;
+            position: relative;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+            transition: transform 3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .menu-item {
+            position: absolute;
+            left: 50%;
+            width: 50%;
+            height: 20px;
+            transform-origin: left center;
+            color: white;
+            font-size: 8px;
+            text-align: left;
+            padding-left: 10px;
+            line-height: 20px;
+            font-family: sans-serif;
+        }
         .pointer {
             position: absolute;
             top: -10px;
             left: 50%;
             transform: translateX(-50%);
-            width: 15px;
-            height: 15px;
-            background: red;
+            width: 20px;
+            height: 20px;
+            background: #ff0000;
             clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            z-index: 10;
         }
-
-        .spin-button {
+        .result {
             position: absolute;
-            bottom: -50px;
+            bottom: -40px;
             left: 50%;
             transform: translateX(-50%);
-            padding: 10px 20px;
-            background: red;
             color: white;
+            font-size: 24px;
             font-weight: bold;
-            border: none;
-            cursor: pointer;
-        }
-
-        .menu-result {
-            position: absolute;
-            bottom: -80px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 18px;
-            font-weight: bold;
-            color: white;
             text-shadow: 0 0 8px rgba(255, 0, 0, 0.8);
+            text-align: center;
+            width: 100%;
         }
     </style>
 </head>
 <body>
-
-    <!-- 룰렛 -->
     <div class="roulette-container">
         <div class="pointer"></div>
-        <button class="spin-button">🎡 룰렛 돌리기</button>
-        <div class="menu-result"></div>
+        <div class="roulette" id="roulette">
+            <!-- 메뉴 아이템들은 JavaScript로 동적 생성됩니다 -->
+        </div>
+        <div class="result" id="result"></div>
     </div>
 
     <script>
@@ -98,26 +100,41 @@
                 "제육덮밥", "새우볶음밥", "간장계란밥"
             ];
 
-            const spinButton = document.querySelector(".spin-button");
-            const resultDisplay = document.querySelector(".menu-result");
-            let spinning = false;
+        const roulette = document.getElementById('roulette');
+        const result = document.getElementById('result');
+        let isSpinning = false;
+        let currentRotation = 0;
 
-            spinButton.addEventListener("click", function () {
-                if (!spinning) {
-                    spinning = true;
-                    spinButton.disabled = true;
+        // 메뉴 아이템 생성
+        menuItems.forEach((item, index) => {
+            const element = document.createElement('div');
+            element.className = 'menu-item';
+            element.textContent = item;
+            const angle = (360 / menuItems.length) * index;
+            element.style.transform = `rotate(${angle}deg)`;
+            roulette.appendChild(element);
+        });
 
-                    let randomMenu = menuItems[Math.floor(Math.random() * menuItems.length)];
+        // 룰렛 클릭 이벤트
+        roulette.addEventListener('click', () => {
+            if (isSpinning) return;
+            isSpinning = true;
 
-                    setTimeout(() => {
-                        resultDisplay.textContent = `🍽 선택된 메뉴: ${randomMenu}`;
-                        spinning = false;
-                        spinButton.disabled = false;
-                    }, 3000);
-                }
-            });
+            const spins = 5; // 회전 수
+            const baseAngle = 360 * spins;
+            const randomAngle = Math.random() * 360;
+            const totalRotation = baseAngle + randomAngle;
+            
+            currentRotation += totalRotation;
+            roulette.style.transform = `rotate(${currentRotation}deg)`;
+
+            setTimeout(() => {
+                const selectedIndex = Math.floor((currentRotation % 360) / (360 / menuItems.length));
+                const selectedMenu = menuItems[selectedIndex];
+                result.textContent = selectedMenu;
+                isSpinning = false;
+            }, 3000);
         });
     </script>
-
 </body>
 </html>
