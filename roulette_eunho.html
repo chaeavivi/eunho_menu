@@ -3,142 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>은호 메뉴 룰렛</title>
+    <title>은호 추천 랜덤 메뉴</title>
     <style>
-        body, html {
+        body {
             margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
+            overflow: hidden;
             display: flex;
             justify-content: center;
-            background-color: #0A0A1E;
+            align-items: center;
+            height: 100vh;
+            background: url("https://raw.githubusercontent.com/chaeavivi/eunho_menu/main/eunhobg.png") no-repeat center center/cover;
         }
 
         .container {
             position: relative;
             width: 430px;
             height: 1068px;
-            background: url('https://raw.githubusercontent.com/chaeavivi/eunho_menu/main/eunhobg.png') no-repeat center top;
-            background-size: contain;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .roulette-circle {
+        .roulette-container {
             position: absolute;
-            top: 340px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 260px;
-            height: 260px;
-            border: 4px solid #FF0000;
+            top: 60%;
+            width: 250px;
+            height: 250px;
             border-radius: 50%;
-            background-color: transparent;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
-            transition: transform 3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-        }
-
-        .menu-item {
-            position: absolute;
-            left: 50%;
-            width: 50%;
-            height: 20px;
-            transform-origin: left center;
-            color: white;
-            font-size: 8px;
-            font-weight: 500;
-            text-align: left;
-            padding-left: 10px;
-            line-height: 20px;
+            border: 8px solid red;
+            background: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            transition: transform 3s ease-out;
         }
 
         .pointer {
             position: absolute;
-            top: -10px;
+            top: -12px;
             left: 50%;
             transform: translateX(-50%);
             width: 20px;
             height: 20px;
-            background: #FF0000;
+            background: red;
             clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-            z-index: 1;
         }
 
-        .selected-menu {
+        .spin-button {
             position: absolute;
-            width: 100%;
-            text-align: center;
+            top: 75%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background: red;
             color: white;
-            font-size: 24px;
             font-weight: bold;
-            bottom: -50px;
+            border: none;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 18px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+        }
+
+        .menu-result {
+            position: absolute;
+            top: 85%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
             text-shadow: 0 0 8px rgba(255, 0, 0, 0.8);
         }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <div class="roulette-circle" id="roulette">
-            <!-- 메뉴 아이템들은 JavaScript로 동적 생성됩니다 -->
+        <!-- 룰렛 -->
+        <div class="roulette-container" id="roulette">
+            <div class="pointer"></div>
         </div>
-        <div class="pointer"></div>
-        <div class="selected-menu" id="result"></div>
+
+        <!-- 룰렛 돌리기 버튼 -->
+        <button class="spin-button" id="spinButton">🎡 룰렛 돌리기</button>
+
+        <!-- 결과 표시 -->
+        <div class="menu-result" id="resultDisplay"></div>
     </div>
 
     <script>
-        const menuItems = [
-            '닭볶음탕', '물냉면', '비빔냉면', '바지락칼국수', '회냉면', 
-            '낙지한마리칼국수', '삼겹살', '우삼겹', '깍두기볶음밥',
-            '김치찜', '된장찌개', '부대찌개', '돼지김치찌개',
-            '보쌈', '족발', '막국수', '수제비', '떡만두국', 
-            '소머리곰탕', '갈비탕', '갈비찜', '쪽갈비', '등갈비', 
-            '순두부찌개', '육개장', '청국장뚝배기', '불고기', '쌈밥',
-            '규카츠', '냉우동', '냉모밀', '돈까스', '로스카츠', 
-            '히레카츠', '우육면', '야끼만두', '짜장면', '짬뽕우동', 
-            '꿔바로우', '피자', '치킨', '햄버거', '치즈김치도리아', 
-            '리조또', '파스타', '까르보나라', '알리오올리오', '스시', 
-            '오므라이스', '계란말이', '햄구이토스트', '샌드위치', 
-            '브리또', '트러플오일파스타', '브리치즈파스타', '카레덮밥',
-            '즉석떡볶이', '치즈떡볶이', '짜장떡볶이', '떡라면', 
-            '치즈라면', '철판치즈김치볶음밥', '치즈김밥', '오징어덮밥', 
-            '제육덮밥', '새우볶음밥', '간장계란밥'
-        ];
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuItems = [
+                "닭볶음탕", "물냉면", "비빔냉면", "바지락칼국수", "회냉면", 
+                "낙지한마리칼국수", "삼겹살", "우삼겹", "깍두기볶음밥",
+                "김치찜", "된장찌개", "부대찌개", "돼지김치찌개",
+                "보쌈", "족발", "막국수", "수제비",
+                "떡만두국", "소머리곰탕", "갈비탕", "갈비찜",
+                "쪽갈비", "등갈비", "순두부찌개", "육개장",
+                "청국장뚝배기", "불고기", "쌈밥", "규카츠",
+                "냉우동", "냉모밀", "돈까스", "로스카츠",
+                "히레카츠", "우육면", "야끼만두", "짜장면",
+                "짬뽕우동", "꿔바로우", "피자", "치킨",
+                "햄버거", "치즈김치도리아", "리조또", "파스타",
+                "까르보나라", "알리오올리오", "스시", "오므라이스",
+                "계란말이", "햄구이토스트", "샌드위치", "브리또",
+                "트러플오일파스타", "브리치즈파스타", "카레덮밥",
+                "즉석떡볶이", "치즈떡볶이", "짜장떡볶이", "떡라면",
+                "치즈라면", "철판치즈김치볶음밥", "치즈김밥", "오징어덮밥",
+                "제육덮밥", "새우볶음밥", "간장계란밥"
+            ];
 
-        const roulette = document.getElementById('roulette');
-        const result = document.getElementById('result');
-        let isSpinning = false;
-        let currentRotation = 0;
+            const roulette = document.getElementById("roulette");
+            const spinButton = document.getElementById("spinButton");
+            const resultDisplay = document.getElementById("resultDisplay");
+            let spinning = false;
 
-        // 메뉴 아이템 생성
-        menuItems.forEach((item, index) => {
-            const element = document.createElement('div');
-            element.className = 'menu-item';
-            element.textContent = item;
-            const angle = (360 / menuItems.length) * index;
-            element.style.transform = `rotate(${angle}deg)`;
-            roulette.appendChild(element);
-        });
+            spinButton.addEventListener("click", function () {
+                if (!spinning) {
+                    spinning = true;
+                    spinButton.disabled = true;
 
-        // 룰렛 클릭 이벤트
-        roulette.addEventListener('click', () => {
-            if (isSpinning) return;
-            isSpinning = true;
+                    let randomRotation = 1800 + Math.floor(Math.random() * 360);
+                    roulette.style.transform = `rotate(${randomRotation}deg)`;
 
-            const spins = 5;
-            const baseAngle = 360 * spins;
-            const randomAngle = Math.random() * 360;
-            const totalRotation = baseAngle + randomAngle;
-            
-            currentRotation += totalRotation;
-            roulette.style.transform = `rotate(${currentRotation}deg)`;
-
-            setTimeout(() => {
-                const selectedIndex = Math.floor((currentRotation % 360) / (360 / menuItems.length));
-                const selectedMenu = menuItems[selectedIndex];
-                result.textContent = selectedMenu;
-                isSpinning = false;
-            }, 3000);
+                    setTimeout(() => {
+                        let selectedMenu = menuItems[Math.floor(Math.random() * menuItems.length)];
+                        resultDisplay.textContent = `🍽 선택된 메뉴: ${selectedMenu}`;
+                        spinning = false;
+                        spinButton.disabled = false;
+                    }, 3000);
+                }
+            });
         });
     </script>
+
 </body>
 </html>
