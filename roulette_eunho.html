@@ -91,6 +91,58 @@
 </head>
 <body>
 
+
+.sidebar {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 80px;
+    height: 250px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 0 15px 15px 0;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 15px;
+    overflow: auto; /* 스크롤바 추가 */
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.sidebar li {
+    padding: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+}
+
+.sidebar li:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* 스크롤바 디자인 (선택 사항) */
+.sidebar::-webkit-scrollbar {
+    width: 5px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+    
     <div class="container">
         <!-- 룰렛 -->
         <div class="roulette-container" id="roulette">
